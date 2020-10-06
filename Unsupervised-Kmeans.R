@@ -22,26 +22,33 @@ library(NbClust)
 library(factoextra)
 
 
-#### 1. How to Implement Customer Segmentation in R?  ####
+
+#### 1. Check Data: How to Implement Customer Segmentation in R?  ####
+#Load Data
 customer_data=read.csv("Mall_Customers.csv")
+#Basic Info 
 str(customer_data)
 names(customer_data)
-
 head(customer_data)
-summary(customer_data$Age)
-
+summary(customer_data)
+#open data in new table
+View(customer_data) 
+#check basic info by column
 sd(customer_data$Age)
 summary(customer_data$Age)
 sd(customer_data$Annual.Income..k..)
 summary(customer_data$Annual.Income..k..)
-
 sd(customer_data$Spending.Score..1.100.)
 summary(customer_data$Spending.Score..1.100.)
 
 
 
-#### 2. Customer Gender Visualization ####
-a=table(customer_data$Gender)
+
+#### 2. Visualization ####
+
+#### 2.1 Gender ####
+#BarPlot for Gender Comparision
+a=table(customer_data$Gender) 
 a
 barplot(a,main="Using BarPlot to display Gender Comparision",
         ylab="Count",
@@ -49,7 +56,7 @@ barplot(a,main="Using BarPlot to display Gender Comparision",
         col=rainbow(2),
         legend=rownames(a))
 
-#ggplot
+#ggplot method
 ggplot(data = customer_data, aes(Gender)) +
   geom_bar(aes(fill = Gender)) + 
   theme_minimal() +
@@ -58,10 +65,9 @@ ggplot(data = customer_data, aes(Gender)) +
   ylab("Gender")
 
 
-#piechart
+#Piechart for Gender Comparision
 pct=round(a/sum(a)*100)
 lbs=paste(c("Female","Male")," ",pct,"%",sep=" ")
-#library(plotrix)
 pie3D(a,labels=lbs,
       main="Pie Chart Depicting Ratio of Female and Male")
 
@@ -70,9 +76,10 @@ ggplot(data = customer_data, aes(Gender)) +
   geom_area(aes(Gender))
 
 
-#### 3. Visualization of Age Distribution ####
+#### 2.2 Age Distribution ####
 summary(customer_data$Age)
 
+#Histogram by Age
 hist(customer_data$Age,
      col="blue",
      main="Histogram to Show Count of Age Class",
@@ -80,6 +87,7 @@ hist(customer_data$Age,
      ylab="Frequency",
      labels=TRUE)
 
+#Ggplot method
 ggplot(data = customer_data, aes(Age)) +
   geom_histogram(aes(Age), binwidth = 1, color = "blue", fill = "gold") + 
   theme_minimal() +
@@ -88,11 +96,12 @@ ggplot(data = customer_data, aes(Age)) +
   ylab("Frecuency")
 
 
-#boxplot
+#Boxplot for Age
 boxplot(customer_data$Age,
         col="gold",
         main="Boxplot for Descriptive Analysis of Age")
 
+#ggplot method
 ggplot(customer_data, aes(Age))+
   geom_boxplot(aes(Age), color = "blue", fill = "gold") +
   theme_minimal() +
@@ -102,10 +111,10 @@ ggplot(customer_data, aes(Age))+
 
 
 
-#### 4. Analysis of the Annual Income of the Customers ####
+#### 2.3 Analysis of the Annual Income of the Customers ####
 summary(customer_data$Annual.Income..k..)
 
-#hist
+#Histogram by annual Income
 hist(customer_data$Annual.Income..k..,
      col="#660033",
      main="Histogram for Annual Income",
@@ -113,6 +122,7 @@ hist(customer_data$Annual.Income..k..,
      ylab="Frequency",
      labels=TRUE)
 
+#Ggplot method
 ggplot(data = customer_data, aes(Annual.Income..k..)) +
   geom_histogram(aes(Annual.Income..k..), binwidth = 10, color = "blue", fill = "gold") + 
   theme_minimal() +
@@ -120,7 +130,7 @@ ggplot(data = customer_data, aes(Annual.Income..k..)) +
   xlab("Anual Income Class") + 
   ylab("Frecuency")
 
-#density
+#Density for Annual Income
 plot(density(customer_data$Annual.Income..k..),
      col="yellow",
      main="Density Plot for Annual Income",
@@ -129,28 +139,30 @@ plot(density(customer_data$Annual.Income..k..),
 polygon(density(customer_data$Annual.Income..k..),
         col="#ccff66")
 
+#Ggplot method
 ggplot(customer_data, aes(Annual.Income..k..)) +
   geom_density(alpha = 0.5) +
   xlim(5, 150)
 
 
 
-#### 5. Analyzing Spending Score of the Customers ####
+#### 2.4. Analyzing Spending Score of the Customers 
 summary(customer_data$Spending.Score..1.100.)
 
-#boxplot
+#Boxplot for Spending score
 boxplot(customer_data$Spending.Score..1.100.,
         horizontal=TRUE,
         col="#990000",
         main="BoxPlot for Descriptive Analysis of Spending Score")
 
+#Ggplot method
 ggplot(customer_data, aes(Spending.Score..1.100.))+
   geom_boxplot(color = "blue", fill = "gold") +
   theme_minimal() +
   ggtitle("Boxplot for Descriptive Analysis of Spending Score") +
   xlab("Age") 
 
-#hist
+#Histogram for Spending score
 hist(customer_data$Spending.Score..1.100.,
      main="HistoGram for Spending Score",
      xlab="Spending Score Class",
@@ -158,16 +170,17 @@ hist(customer_data$Spending.Score..1.100.,
      col="#6600cc",
      labels=TRUE)
 
+#Ggplot method
 ggplot(customer_data, aes(Spending.Score..1.100.)) +
   geom_histogram(color = "blue", fill = "gold", bins = 10 )
 
 
 
-#### 6. k-Means Algorith ####
+#### 3. k-Means Algorith ####
 
-#### 6.1 Elbow Method ####
-#library(purrr)
-set.seed(123)
+#### 3.1 Elbow Method ####
+
+set.seed(333)
 # function to calculate total intra-cluster sum of square 
 iss <- function(k) {
   kmeans(customer_data[,3:5],k,iter.max=100,nstart=100,algorithm="Lloyd" )$tot.withinss
@@ -185,10 +198,6 @@ plot(k.values, iss_values,
 
 
 #### 6.2 Average Silhouette Method ####
-#library(cluster) 
-#library(gridExtra)
-#library(grid)
-
 
 k2<-kmeans(customer_data[,3:5],2,iter.max=100,nstart=50,algorithm="Lloyd")
 s2<-plot(silhouette(k2$cluster,dist(customer_data[,3:5],"euclidean")))
@@ -219,14 +228,11 @@ s10<-plot(silhouette(k10$cluster,dist(customer_data[,3:5],"euclidean")))
 
 
 #Determine and visualize the optimal number of clusters
-#library(NbClust)
-#library(factoextra)
-
 fviz_nbclust(customer_data[,3:5], kmeans, method = "silhouette")
 
 #### 6.3 Gap Statistic Method ####
 
-set.seed(125)
+set.seed(333)
 stat_gap <- clusGap(customer_data[,3:5], FUN = kmeans, nstart = 25,
                     K.max = 10, B = 50)
 fviz_gap_stat(stat_gap)
@@ -237,14 +243,14 @@ k6
 
 
 
-#### Visualizing the Clustering Results using the First Two Principle Components #### 
+#### 4. Visualizing the Clustering Results using the First Two Principle Components #### 
 pcclust=prcomp(customer_data[,3:5],scale=FALSE) #principal component analysis
 summary(pcclust)
 
 pcclust$rotation[,1:2]
 
 #visualize clusters
-set.seed(1)
+set.seed(333)
 
 #Annual Income & Spending Score
 ggplot(customer_data, aes(x =Annual.Income..k.., y = Spending.Score..1.100.)) + 
