@@ -3,10 +3,11 @@ title: "Segmentación de clientes"
 output:
   html_document: default
   pdf_document: default
+  word_document: default
 ---
 
 ### Práctica de aprendizaje No Supervisado con K-Means
-#### Álvaro Barrio Hernández
+#### Álvaro Barrio Hernández (alvaro.barrio.hernandez@gmail.com)
 
 ___
 
@@ -25,6 +26,7 @@ ___
 Comencemos por instalar los paquetes necesarios para la correcta realización del ejercicio:
 ```{r}
 
+library(umap)
 library(ggplot2)
 library(plotrix)
 library(purrr)
@@ -33,6 +35,10 @@ library(gridExtra)
 library(grid)
 library(NbClust)
 library(factoextra)
+library(tinytex)
+library(tidyverse)
+library(readr)
+library(Rtsne)
 ```
 
 ### 1. Datos y características
@@ -173,7 +179,7 @@ Este método funciona de la siguiente forma, se calcula la suma de errores cuadr
 Esto es visible como un codo:
 
 ```{r echo=FALSE}
-set.seed(333)
+set.seed(123)
 #Funcion para calcular la suma de cuadrados total intra-cluster
   iss <- function(k) {
   kmeans(customer_data[,3:5],k,iter.max=100,nstart=100,algorithm="Lloyd" )$tot.withinss
@@ -259,7 +265,7 @@ k6
 
 ___
 
-### 4. Visualización de Clústers y aplicación de componentes principales #### 
+### 4. Visualización de Clústers #### 
 ```{r echo=FALSE}
 pcclust=prcomp(customer_data[,3:5],scale=FALSE) 
 summary(pcclust)
@@ -319,6 +325,9 @@ Podemos observar una clasificación de cluster de la siguiente forma:
 
 * Clúster 4 y 6 – Gasto bajo 
 
+___
+
+#### 5. Principal Components Analysis (PCA) & t-distributed stochastic neighbor embedding (t-sne)
 ```{r echo=FALSE}
 
 kCols=function(vec){cols=rainbow (length (unique (vec)))
@@ -326,7 +335,7 @@ return (cols[as.numeric(as.factor(vec))])}
 
 digCluster<-k6$cluster; dignm<-as.character(digCluster); # K-means clusters
 
-plot(pcclust$x[,1:2], col =kCols(digCluster),pch =19,xlab ="K-means",ylab="clases", main="PCA")
+plot(pcclust$x[,1:2], col =kCols(digCluster),pch =19,xlab ="PCA-1",ylab="PCA-2", main="PCA")
 legend("bottomleft",unique(dignm),fill=unique(kCols(digCluster)))
 
 ```
@@ -342,6 +351,17 @@ Distribución:
 
 * Clúster 2: se compone de clientes con un PCA2 alto y un gasto anual medio de ingresos.
 
+
+```{r echo=FALSE}
+#TSNE
+tsne <- Rtsne(customer_data[,3:5], dims = 2, perplexity=30, verbose=TRUE, max_iter = 500)
+summary(tsne)
+exeTimeTsne<- system.time(Rtsne(customer_data[,3:5], dims = 2, perplexity=30, verbose=TRUE, max_iter = 500))
+## Plotting
+plot(tsne$Y, t='n', main="tsne")
+text(tsne$Y, xlab ="K-means", ylab="classes", col=kCols(digCluster))
+
+```
 
 ___
 
