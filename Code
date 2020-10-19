@@ -275,3 +275,4 @@ exeTimeTsne<- system.time(Rtsne(customer_data[,3:5], dims = 2, perplexity=30, ve
 plot(tsne$Y, t='n', main="tsne")
 text(tsne$Y, xlab ="K-means", ylab="classes", col=kCols(digCluster))
 
+
