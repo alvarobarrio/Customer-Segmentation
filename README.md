@@ -1,7 +1,7 @@
 # Unsupervised-Kmeans: Práctica de aprendizaje No Supervisado con K-Means
 
+### Full practice with images: Práctica completa con explicaciones, gráficos y salidas de R
 ### Code: Únicamente el código en R
-### Code with explanation: Aplicación del formato R-Markdown para incluir información sobre cada paso durante la práctica
 
 ___
 
