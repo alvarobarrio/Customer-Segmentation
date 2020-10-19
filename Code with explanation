@@ -370,3 +370,4 @@ Con la ayuda de la agrupación en clústeres, podemos comprender mucho mejor las
 En este proyecto de ciencia de datos, pasamos por el modelo de segmentación de clientes. Desarrollamos esto utilizando aprendizaje no supervisado. Específicamente, hicimos uso de un algoritmo de agrupamiento llamado agrupamiento de K-medias. Analizamos y visualizamos los datos y luego procedimos a implementar nuestro algoritmo. Pueden encontrar todo el código disonible en mi [GitHub](https://github.com/alvarobarrio)
 
 
+
