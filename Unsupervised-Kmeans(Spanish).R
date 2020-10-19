@@ -4,7 +4,6 @@
 #### Álvaro Barrio Hernández
 #### alvaro.barrio.hernandez@gmail.com
 
-install_tinytex()
 
 #### Librerías ####
 install.packages("ggplot2")
@@ -35,12 +34,6 @@ library(tidyverse)
 library(readr)
 library(Rtsne)
 
-tinytex::install_tinytex()
-update.packages(ask = FALSE, checkBuilt = TRUE)
-tinytex::tlmgr_update()
-tinytex::reinstall_tinytex()
-tinytex:::install_prebuilt()
-options(tinytex.verbose = TRUE)
 
 
 #### 1. Primer visualizado de los datos ####
