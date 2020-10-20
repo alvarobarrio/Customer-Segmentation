@@ -1,7 +1,8 @@
 # Unsupervised-Kmeans: Práctica de aprendizaje No Supervisado con K-Means
 
-### PDF - Full practice with images: Práctica completa con explicaciones, gráficos y salidas de R
-### Code: Únicamente el código en R
+#### PDF - Full practice with images: Práctica completa con explicaciones, gráficos y salidas de R
+#### Code: Únicamente el código en R
+#### Data: Mall_Customers.csv
 
 ___
 
