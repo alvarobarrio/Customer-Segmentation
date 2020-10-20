@@ -1,6 +1,6 @@
 # Unsupervised-Kmeans: Práctica de aprendizaje No Supervisado con K-Means
 
-### Full practice with images: Práctica completa con explicaciones, gráficos y salidas de R
+### PDF - Full practice with images: Práctica completa con explicaciones, gráficos y salidas de R
 ### Code: Únicamente el código en R
 
 ___
